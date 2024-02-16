@@ -42,7 +42,6 @@ func TestMergeTwoLists(t *testing.T) {
 			list2: &ListNode{Val: 2, Next: &ListNode{Val: 4, Next: nil}},
 			want:  &ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: nil}}}},
 		},
-		// Add more test cases as necessary
 	}
 
 	for _, tt := range tests {
