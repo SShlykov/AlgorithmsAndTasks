@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	InvalidInputConvertionError = "invalid input: cant be converted to int"
+	InvalidInputConversionError = "invalid input: cant be converted to int"
 	InvalidInputParamLength     = "invalid input: slice length is not equal to 2"
 )
 
@@ -22,72 +22,30 @@ func main() {
 	reader, writer := bufio.NewReader(os.Stdin), bufio.NewWriter(os.Stdout)
 	defer writer.Flush()
 
-	round1, err := readRound(reader)
-	if err != nil {
-		writeResult(writer, err.Error())
-		os.Exit(2)
-	}
-	round2, err := readRound(reader)
-	if err != nil {
-		writeResult(writer, err.Error())
-		os.Exit(2)
-	}
+	round1, _ := readRound(reader)
+	round2, _ := readRound(reader)
+	placement, _ := readPlacement(reader)
 
-	placement, err := readPlacement(reader)
-	if err != nil {
-		writeResult(writer, err.Error())
-		os.Exit(2)
-	}
+	goals := CalculateNeededGoals(round1, round2, placement)
 
-	neededGoals := CalculateNeededGoals(round1, round2, placement)
-
-	writeResult(writer, strconv.Itoa(neededGoals))
+	writeResult(writer, strconv.Itoa(goals))
 }
 
 func CalculateNeededGoals(round1, round2 *Round, placement int) int {
-	team1AwayScore, team2AwayScore := GetAwayScores(round1, round2, placement)
-	team1TotalScore := round1.Team1Score + round2.Team1Score
-	team2TotalScore := round1.Team2Score + round2.Team2Score
-
-	var needToWin int
-	switch {
-	case team1TotalScore > team2TotalScore:
-		needToWin = 0 // win by total goals = [case 1]
-	case team1TotalScore == team2TotalScore:
-		if team1AwayScore > team2AwayScore {
-			needToWin = 0 // win by away goals = [case 2]
-		} else {
-			needToWin = 1 // -> case 1
-		}
-	case placement == HOME:
-		if team1AwayScore > team2AwayScore {
-			needToWin = team2TotalScore - team1TotalScore // we cant win by away goals -> case 2
-		} else {
-			needToWin = team2TotalScore - team1TotalScore + 1 // we cant win by total goals -> case 1
-		}
-
-	default:
-		// if away we can add needToWin to team1AwayScore until it becomes more than team2AwayScore -> case 2
-		// but not more than team2TotalScore-team1TotalScore+1 -> case 1
-		needToWin = min(
-			team2TotalScore-team1TotalScore+1,
-			max(team2TotalScore-team1TotalScore, team2AwayScore-team1AwayScore+1),
-		)
+	if placement == AWAY {
+		score1 := round1.Team1Score*100 + round2.Team1Score*101
+		score2 := round1.Team2Score*101 + round2.Team2Score*100
+		return max(0, (score2-score1+101)/101)
+	} else {
+		score1 := round1.Team1Score*101 + round2.Team1Score*100
+		score2 := round1.Team2Score*100 + round2.Team2Score*101
+		return max(0, (score2-score1+100)/100)
 	}
-
-	return needToWin
 }
 
 type Round struct {
 	Team1Score int
 	Team2Score int
-}
-
-func GetAwayScores(round1, round2 *Round, placement int) (team1 int, team2 int) {
-	if placement == 1 {
-		return round2.Team1Score, round1.Team2Score
-	}
-	return round1.Team1Score, round2.Team2Score
 }
 
 func NewRound(firstSubSlice, secondSubSlice string) (*Round, error) {
@@ -96,11 +54,11 @@ func NewRound(firstSubSlice, secondSubSlice string) (*Round, error) {
 
 	Team1Score, err = strconv.Atoi(firstSubSlice)
 	if err != nil {
-		return nil, errors.New(InvalidInputConvertionError)
+		return nil, errors.New(InvalidInputConversionError)
 	}
 	Team2Score, err = strconv.Atoi(secondSubSlice)
 	if err != nil {
-		return nil, errors.New(InvalidInputConvertionError)
+		return nil, errors.New(InvalidInputConversionError)
 	}
 
 	return &Round{Team1Score, Team2Score}, nil
@@ -126,7 +84,7 @@ func readRound(reader *bufio.Reader) (*Round, error) {
 func readPlacement(reader *bufio.Reader) (int, error) {
 	res, err := reader.ReadByte()
 	if err != nil {
-		return 0, errors.New(InvalidInputConvertionError)
+		return 0, errors.New(InvalidInputConversionError)
 	}
 	placement := int(res - '0')
 	return placement, nil

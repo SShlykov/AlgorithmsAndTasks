@@ -8,20 +8,14 @@ import (
 )
 
 const (
-	SPACE     = 1
-	TAB       = 4
-	Backspace = -1
+	TAB = 4
 )
 
 func main() {
 	reader, writer := bufio.NewReader(os.Stdin), bufio.NewWriter(os.Stdout)
 	defer writer.Flush()
 
-	lines, err := getTaskInput(reader)
-	if err != nil {
-		writeResult(writer, err.Error())
-		os.Exit(2)
-	}
+	lines, _ := getTaskInput(reader)
 
 	var goal int
 	for _, countNeededSpaces := range lines {
@@ -32,15 +26,17 @@ func main() {
 }
 
 func getCountOperations(countNeededSpaces int) int {
-	if countNeededSpaces == 0 {
-		return 0
-	}
 	divisor := countNeededSpaces / TAB
+	reminder := countNeededSpaces % TAB
 
-	viaBackspace := (divisor + 1) + (countNeededSpaces-(divisor+1)*TAB)/Backspace
-	viaSpace := (divisor) + (countNeededSpaces-divisor*TAB)/SPACE
-
-	return min(viaBackspace, viaSpace)
+	switch reminder {
+	case 1, 2:
+		return divisor + reminder
+	case 3:
+		return divisor + 2
+	default:
+		return divisor
+	}
 }
 
 func getTaskInput(reader *bufio.Reader) ([]int, error) {

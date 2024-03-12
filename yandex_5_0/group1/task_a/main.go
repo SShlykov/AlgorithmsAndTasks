@@ -28,19 +28,21 @@ func main() {
 		os.Exit(2)
 	}
 
-	vMinTree, vMaxTree := vasya.Diapason()
-	mMinTree, mMaxTree := maria.Diapason()
+	writeResult(writer, calc(vasya, maria))
+}
+
+func calc(hum1, hum2 *HumParams) string {
+	h1MinTree, h1MaxTree := hum1.Diapason()
+	h2MinTree, h2MaxTree := hum2.Diapason()
 
 	var totalTrees int
-	if vMaxTree < mMinTree || mMaxTree < vMinTree {
-		totalTrees = (vMaxTree - vMinTree + 1) + (mMaxTree - mMinTree + 1)
+	if h1MaxTree < h2MinTree || h2MaxTree < h1MinTree {
+		totalTrees = (h1MaxTree - h1MinTree + 1) + (h2MaxTree - h2MinTree + 1)
 	} else {
-		totalStart := min(vMinTree, mMinTree)
-		totalEnd := max(vMaxTree, mMaxTree)
-		totalTrees = totalEnd - totalStart + 1
+		totalTrees = max(h1MaxTree, h2MaxTree) - min(h1MinTree, h2MinTree) + 1
 	}
 
-	writeResult(writer, strconv.Itoa(totalTrees))
+	return strconv.Itoa(totalTrees)
 }
 
 type HumParams struct {
