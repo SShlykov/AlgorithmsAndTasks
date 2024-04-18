@@ -1,3 +1,3 @@
 module github.com/SShlykov/AlgorithmsAndTasks
 
-go 1.21
+go 1.19
