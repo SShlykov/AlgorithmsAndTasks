@@ -9,6 +9,10 @@
         <li>Задание 4 (<a href="#task4">link</a>)</li>
         <li>Задание 5 (<a href="#task5">link</a>)</li>
         <li>Задание 6 (<a href="#task6">link</a>)</li>
+        <li>Задание 7 (<a href="#task7">link</a>)</li>
+        <li>Задание 8 (<a href="#task8">link</a>)</li>
+        <li>Задание 9 (<a href="#task9">link</a>)</li>
+        <li>Задание 10 (<a href="#task10">link</a>)</li>
     </ul>
 </div>
 
@@ -264,7 +268,7 @@ _согласно спецификации одинаковые нулевые �
 
 ---
 
-<div id="task8" style="font-weight: bold">Задание 9</div>
+<div id="task8" style="font-weight: bold">Задание 8</div>
 
 <pre>
 package main
@@ -277,8 +281,8 @@ import (
 
 
 // REVIEW: не стоит использовать магические цифры для предсказуемости поведения
-// REVIEW: rand.Intn(1000) - [0..999] приведет к непредсказуемости во время модульного тестирования(CI)
-// REVIEW: обрати внимание, лучше либо вынести в конфиг продолжительность или параметр функции
+// REVIEW: rand.Intn(1000) - [0..999] приведет к непредсказуемости во время модульного тестирования + CI
+// REVIEW: следует обратить внимание, лучше либо вынести в конфиг или в параметр функции
 func fetchDataWrong(source string, data chan<- string) {
     // Симуляция ответа запроса разного по продолжительности.
     time.Sleep(time.Millisecond * time.Duration(rand.Intn(1000)))
@@ -316,6 +320,100 @@ func main() {
     }
 }
 
+</pre>
+
+<div style="text-align: right">(<a href="#top">top</a>)</div>
+
+---
+
+<div id="task9" style="font-weight: bold">Задание 9</div>
+
+<pre>
+package throttle
+
+import (
+    "time"
+    "sync"
+)
+
+// HOF и замыкание
+func Throttle(f func(), duration time.Duration) func() {
+    var once sync.Once 
+    var mu sync.Mutex
+    var lastTime time.Time
+
+    return func() {
+        mu.Lock()
+        defer mu.Unlock()
+
+        once.Do(func() {
+            lastTime = time.Now().Add(-duration)
+        })
+
+        if time.Since(lastTime) < duration {
+            return
+        }
+
+        f()
+
+        lastTime = time.Now()
+    }
+}
+</pre>
+
+<div style="text-align: right">(<a href="#top">top</a>)</div>
+
+---
+
+<div id="task10" style="font-weight: bold">Задание 10</div>
+
+<pre>
+package cache
+
+import "sync"
+
+type item[T any] struct {
+	value T
+}
+
+type InMemoryCache[Key comparable, Val any] struct {
+	mu    sync.RWMutex
+	cache map[Key]item[Val]
+}
+
+func NewInMemoryCache[Key comparable, Val any]() *InMemoryCache[Key, Val] {
+	return &InMemoryCache[Key, Val]{
+		cache: make(map[Key]item[Val]),
+	}
+}
+
+func (c *InMemoryCache[Key, Val]) Put(key Key, value Val) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+
+	c.cache[key] = item[Val]{value: value}
+}
+
+func (c *InMemoryCache[Key, Val]) Get(key Key) (Val, bool) {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+
+	v, ok := c.cache[key]
+	if ok {
+		return v.value, true
+	}
+
+	return v.value, false
+}
+
+func (c *InMemoryCache[Key, Val]) GetOrCreate(key Key, value Val) Val {
+	if v, ok := c.Get(key); ok {
+		return v
+	}
+
+	c.Put(key, value)
+	return value
+}
 </pre>
 
 <div style="text-align: right">(<a href="#top">top</a>)</div>
