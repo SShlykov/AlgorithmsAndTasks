@@ -21,7 +21,7 @@ func TestInMemoryCache_Get(t *testing.T) {
 
 	for _, tt := range cases {
 		t.Run(tt.name, func(t *testing.T) {
-			got := c.Get(tt.key)
+			got, _ := c.Get(tt.key)
 			assert.Equal(t, tt.want, got)
 		})
 	}
