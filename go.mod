@@ -1,6 +1,6 @@
 module github.com/SShlykov/AlgorithmsAndTasks
 
-go 1.19
+go 1.22.0
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
