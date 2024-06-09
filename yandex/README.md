@@ -1,10 +1,12 @@
-linked lists:
+## Leetcode - находится в /leetcode
+
+**linked lists:**
 - [ ] https://leetcode.com/problems/merge-k-sorted-lists/
 - [ ] https://leetcode.com/problems/linked-list-cycle/
 - [ ] https://leetcode.com/problems/add-two-numbers/
 - [ ] https://leetcode.com/problems/reverse-linked-list/
 
-binary search:
+**binary search:**
 - [ ] https://leetcode.com/problems/binary-search/
 - [ ] https://leetcode.com/problems/guess-number-higher-or-lower/
 - [ ] https://leetcode.com/problems/search-a-2d-matrix/
@@ -12,7 +14,7 @@ binary search:
 - [ ] https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
 - [ ] https://leetcode.com/problems/search-in-rotated-sorted-array-ii/
 
-hash table:
+**hash table:**
 - [ ] https://leetcode.com/problems/single-number/ - решить за O(1) по памяти
 - [ ] https://leetcode.com/problems/two-sum/
 - [ ] https://leetcode.com/problems/4sum/
@@ -20,36 +22,36 @@ hash table:
 - [ ] https://leetcode.com/problems/valid-anagram/
 - [ ] https://leetcode.com/problems/find-all-anagrams-in-a-string/
 
-queue/stack:
+**queue/stack:**
 - [ ] https://leetcode.com/problems/valid-parentheses/
 
-dfs/bfs:
+**dfs/bfs:**
 - [ ] https://leetcode.com/problems/number-of-islands/
 - [ ] https://leetcode.com/problems/remove-invalid-parentheses/
 
-sort:
+**sort:**
 - [ ] https://leetcode.com/problems/merge-intervals/
 
-heap/hash:
+**heap/hash:**
 - [ ] https://leetcode.com/problems/top-k-frequent-words/
 - [ ] https://leetcode.com/problems/top-k-frequent-elements/
 
-two pointers:
+**two pointers:**
 - [ ] https://leetcode.com/problems/container-with-most-water/
 - [ ] https://leetcode.com/problems/partition-labels/
 
-sliding window:
+**sliding window:**
 - [ ] https://leetcode.com/problems/sliding-window-median/
 - [ ] https://leetcode.com/problems/sliding-window-maximum/
 - [ ] https://leetcode.com/problems/longest-repeating-character-replacement/
 
-tree:
+**tree:**
 - [ ] https://leetcode.com/problems/same-tree/
 - [ ] https://leetcode.com/problems/symmetric-tree/
 - [ ] https://leetcode.com/problems/balanced-binary-tree/
 - [ ] https://leetcode.com/problems/path-sum-ii/
 
-greedy problems:
+**greedy problems:**
 - [ ] https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
 - [ ] https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/
 - [ ] https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/
