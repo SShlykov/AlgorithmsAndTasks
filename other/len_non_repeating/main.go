@@ -18,14 +18,11 @@ func lenMaxNonRepeatingElements(list []int) int {
 	set := make(map[int]int)
 
 	for i := 0; i < len(list); i++ {
-		// Добавляем в set i-тый элемент
 		set[list[i]]++
 
-		// Если в set есть повтор - вычитаем из set i-maxWindow-тый элемент и делаем шаг
 		if isReapeted(set) {
 			set[list[i-maxWindow]]--
 		} else {
-			// Если в set нет повторов - расширяем окно и двигаемся дальше
 			maxWindow++
 		}
 
